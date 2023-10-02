@@ -47,8 +47,7 @@ class RawYoutubePlayer extends StatefulWidget {
   _MobileYoutubePlayerState createState() => _MobileYoutubePlayerState();
 }
 
-class _MobileYoutubePlayerState extends State<RawYoutubePlayer>
-    with WidgetsBindingObserver {
+class _MobileYoutubePlayerState extends State<RawYoutubePlayer> with WidgetsBindingObserver {
   late final YoutubePlayerController controller;
   late final Completer<InAppWebViewController> _webController;
   PlayerState? _cachedPlayerState;
@@ -69,8 +68,7 @@ class _MobileYoutubePlayerState extends State<RawYoutubePlayer>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
-        if (_cachedPlayerState != null &&
-            _cachedPlayerState == PlayerState.playing) {
+        if (_cachedPlayerState != null && _cachedPlayerState == PlayerState.playing) {
           controller.play();
         }
         break;
@@ -90,31 +88,25 @@ class _MobileYoutubePlayerState extends State<RawYoutubePlayer>
       key: ValueKey(controller.hashCode),
       initialData: InAppWebViewInitialData(
         data: player,
-        baseUrl: _baseUrl,
+        baseUrl: WebUri.uri(_baseUrl),
         encoding: 'utf-8',
         mimeType: 'text/html',
       ),
       gestureRecognizers: _gestureRecognizers,
-      initialOptions: InAppWebViewGroupOptions(
-        crossPlatform: InAppWebViewOptions(
-          userAgent: userAgent,
-          mediaPlaybackRequiresUserGesture: false,
-          transparentBackground: true,
-          disableContextMenu: true,
-          supportZoom: false,
-          disableHorizontalScroll: false,
-          disableVerticalScroll: false,
-          useShouldOverrideUrlLoading: true,
-        ),
-        ios: IOSInAppWebViewOptions(
-          allowsInlineMediaPlayback: true,
-          allowsAirPlayForMediaPlayback: true,
-          allowsPictureInPictureMediaPlayback: true,
-        ),
-        android: AndroidInAppWebViewOptions(
-          useWideViewPort: false,
-          useHybridComposition: controller.params.useHybridComposition,
-        ),
+      initialSettings: InAppWebViewSettings(
+        userAgent: userAgent,
+        mediaPlaybackRequiresUserGesture: false,
+        transparentBackground: true,
+        disableContextMenu: true,
+        supportZoom: false,
+        disableHorizontalScroll: false,
+        disableVerticalScroll: false,
+        useShouldOverrideUrlLoading: true,
+        allowsInlineMediaPlayback: true,
+        allowsAirPlayForMediaPlayback: true,
+        allowsPictureInPictureMediaPlayback: true,
+        useWideViewPort: false,
+        useHybridComposition: controller.params.useHybridComposition,
       ),
       shouldOverrideUrlLoading: _decideNavigationActionPolicy,
       onWebViewCreated: (webController) {
@@ -145,9 +137,7 @@ class _MobileYoutubePlayerState extends State<RawYoutubePlayer>
 
   Uri get _baseUrl {
     return Uri.parse(
-      controller.params.privacyEnhanced
-          ? 'https://www.youtube-nocookie.com'
-          : 'https://www.youtube.com',
+      controller.params.privacyEnhanced ? 'https://www.youtube-nocookie.com' : 'https://www.youtube.com',
     );
   }
 
