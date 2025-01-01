@@ -15,7 +15,8 @@ dependencies:
   flutter_inappwebview:
     git:
       url: https://github.com/marcomagno/flutter_inappwebview.git
-      ref: exposed-native-instance
+      ref: v6-exposed-native-instance # Using the same branch as the mobile app
+      path: flutter_inappwebview
   url_launcher: ^6.1.2
 
 dev_dependencies:
